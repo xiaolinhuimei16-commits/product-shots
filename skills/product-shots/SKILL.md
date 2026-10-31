@@ -221,3 +221,36 @@ Stage 2 (Visual Assets) of the State Machine offers Brand Kit as one of the stru
 | `sample_assets` | optional | 1-3 reference images for visual continuity |
 
 When the user supplies a Brand Kit, Hub propagates the fields into the Brief; downstream business skills (`product-shots-main-image`, `product-shots-detail-page`, `product-shots-ad-creative`, `product-shots-social-post`) read those fields directly. When absent, defaults from the matched industry DNA fill in.
+
+
+---
+
+# Rakuten-first routing override (custom fork)
+
+When the request concerns Japanese Rakuten (楽天市場 / 楽天の商品画像 / 楽天LP), this section takes priority over the generic Amazon and social-platform defaults above.
+
+## Rakuten route
+
+1. Load `rakuten-suite-planner` first for any Rakuten product-image set or multi-image request.
+2. Detect one of three modes: autonomous planning, copy-led design, or hybrid. Preserve complete user-supplied copy verbatim in copy-led mode.
+3. Load `rakuten-japanese-copy` for Japanese copywriting, proofreading, and text QA.
+4. Load `rakuten-visual-design` for Japanese ecommerce visual direction, typography, layout, and suite consistency.
+5. Load `rakuten-product-integrity` before any product image generation or compositing.
+6. Only after the user approves the storyboard and copy, route individual image production to the existing `product-shots-image-gen` engine. Reuse its provider abstraction; do not hard-code a paid model or GPU service.
+
+## Rakuten suite requirements
+
+- Default planning target is 10-20 images, but never pad the set with repetitive or irrelevant images.
+- Treat the suite as one connected conversion story with distinct roles for each image.
+- Do not force pain-point marketing. Identify the actual purchase motivation for the product category.
+- Use Japanese-native copy and mobile-first typography.
+- Preserve original product structure, color, print, packaging, quantity, accessories, and SKU differences.
+- Accept SKU labels such as 1/2/3 or A/B/C.
+- Skip missing nonessential information; never invent dimensions, material, safety evidence, certifications, or product effects.
+- Keep approved images locked; edits to one image must not silently alter other approved images.
+
+## Mode precedence
+
+Explicit user instructions > user-supplied product facts and locked copy > approved storyboard > these default rules > generic upstream Amazon defaults.
+
+If the user gives complete copy, do not rewrite it. If the user asks only for visual design, do not reopen marketing strategy unless a factual or layout ambiguity blocks execution.
