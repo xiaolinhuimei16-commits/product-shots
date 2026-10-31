@@ -40,6 +40,9 @@ Read:
 - `rakuten-product-integrity`
 - `references/image-plan-framework.md`
 - `references/production-checklist.md`
+- `references/quality-pilot.md`
+- `references/no-api-preflight.md`
+- `references/three-image-pilot-brief.md` when using the current crispy squishy toy test product
 
 ### Step 1 — Establish the product truth set
 
@@ -85,6 +88,17 @@ Define one shared design system:
 - Rules for scene variation and product scale.
 
 Do not make every image a copy of the hero. Maintain the same design language while changing composition to suit each message.
+
+### Step 4A — Quality-first pilot gate
+
+Before scaling any new product into a full suite:
+- Load `references/quality-pilot.md`.
+- If no image API or local renderer is configured, load `references/no-api-preflight.md` and stop before any paid generation.
+- For the current crispy squishy decompression toy, use `references/three-image-pilot-brief.md`.
+- Prepare exactly three pilot briefs: hero, core product experience, and lifestyle/use scene.
+- The hero must follow the user's explicit direction: enlarged butter-stick squishy as the dominant product, other SKUs only as supporting variety.
+- Do not claim a visual quality score until actual rendered files have been inspected against source photos.
+- Require all three images to pass the product-fidelity hard gate and target 90/100 before scaling to 10–20+ images.
 
 ### Step 5 — Generate images through the existing engine
 
