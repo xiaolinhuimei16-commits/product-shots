@@ -38,6 +38,7 @@ Read:
 - `rakuten-japanese-copy`
 - `rakuten-visual-design`
 - `rakuten-product-integrity`
+- `rakuten-listing-builder` (for RMS listing copy and structured upload data)
 - `references/image-plan-framework.md`
 - `references/production-checklist.md`
 - `references/quality-pilot.md`
@@ -136,7 +137,11 @@ Check:
 - No tiny dense specification text.
 - No unsupported or misleading claims.
 
-### Step 8 — Delivery and change control
+### Step 8 — Build the Rakuten listing pack
+
+After the product truth set and selling-point strategy are approved, invoke `rakuten-listing-builder` to prepare the Japanese product title, catch copy, description, SKU/options, specifications, keyword map, category suggestion, package contents, purchase notes, and FAQ. Keep image copy and listing copy as separate assets, but derive both from the same fact ledger and selling-point IDs. Run a cross-asset consistency check before delivery. This prepares RMS-ready content; it does not publish to RMS unless a confirmed authorized integration is available.
+
+### Step 9 — Delivery and change control
 
 Deliver:
 - Final image set with original file names where requested.
