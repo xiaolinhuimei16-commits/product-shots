@@ -338,6 +338,11 @@ Each skill is self-contained — a `SKILL.md` plus its `references/` and `script
 | `product-shots-ad-creative` | "cross-platform ad creatives" | 8-platform ad variants, per-platform style profiles |
 | `product-shots-social-post` | "Instagram / TikTok posts for this" | Feed / Story / Reel / Carousel with industry DNA |
 | `product-shots-image-gen` | (called by the others; or `"just generate: <prompt>"`) | Raw image generation across OpenAI / Gemini / Flux |
+| `rakuten-suite-planner` | "plan a Rakuten product image set" | 10-20+ image storyboard, selling-point hierarchy, visual DNA |
+| `rakuten-product-images` | "create Rakuten main and secondary images" | Rakuten-oriented image suite workflow and production QA |
+| `rakuten-japanese-copy` | "write/check Japanese Rakuten image copy" | Natural Japanese copy with locked-copy and claim checks |
+| `rakuten-visual-design` | "design Japanese Rakuten product graphics" | Japanese ecommerce layout, typography, and consistency |
+| `rakuten-product-integrity` | "preserve exact product and SKU appearance" | Source-photo mapping and product-truth safeguards |
 
 ## How It Works
 
@@ -355,7 +360,7 @@ skills/
   product-shots-detail-page/  — A+ module set with cross-image consistency anchors
   product-shots-multi-angle/  — 14-anchor identity lock, fashion-editorial portraits
   product-shots-ad-creative/  — 8-platform style profiles, banned-words filter
-  product-shots-social-post/  — 7-industry DNA presets, 14-point self-check
+  product-shots-social-post/  — 7-industry DNA presets, 14-point self-check\n  rakuten-suite-planner/      — Rakuten image-suite planning and storyboard\n  rakuten-product-images/     — Rakuten main / secondary image production\n  rakuten-japanese-copy/      — Japanese ecommerce copy and claim QA\n  rakuten-visual-design/      — Japanese visual design system\n  rakuten-product-integrity/  — SKU and source-product integrity
 .github/          — logo (light/dark), repo metadata
 assets/gallery/   — 27 real outputs across 5 skills × 2 products
 LICENSE           — MIT
