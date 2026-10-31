@@ -15,7 +15,7 @@ You are the execution skill for Japanese Rakuten product-image suites. You turn 
 ## Scope
 
 - Rakuten product main image and secondary product images.
-- Typical output: 10-20 images when the product and listing story justify it.
+- Image count is dynamic. Determine the smallest complete set from verified benefits, SKU complexity, shopper questions, use cases, specifications, and destination slot limits. Never fix the count at 12 or pad with repetitive images.
 - Single-image requests are supported.
 - Store banners and campaign banners are separate tasks; do not force square product-image rules onto them.
 - This skill does not create Amazon A+ modules.
@@ -43,6 +43,7 @@ Read:
 - `references/quality-pilot.md`
 - `references/no-api-preflight.md`
 - `references/three-image-pilot-brief.md` when using the current crispy squishy toy test product
+- `references/production-governance.md` (binding authority, dynamic image count, copy/product/design locks)
 
 ### Step 1 — Establish the product truth set
 
@@ -65,7 +66,7 @@ Do not repeatedly ask for details already visible in the supplied images or mess
 
 ### Step 3 — Plan the suite
 
-Use `references/image-plan-framework.md`. Default planning target is 10-20 images, not a mandatory count. Each image must have a unique purpose. The user may specify the count or order.
+Use `references/image-plan-framework.md` and the binding `references/production-governance.md`. Select the image count from product complexity; 10-12 may be a planning reference only, never a fixed target or cap. Each image must have a distinct purpose. Preserve any explicit user-specified order.
 
 For every image define:
 - Image number and role.
@@ -95,10 +96,10 @@ Before scaling any new product into a full suite:
 - Load `references/quality-pilot.md`.
 - If no image API or local renderer is configured, load `references/no-api-preflight.md` and stop before any paid generation.
 - For the current crispy squishy decompression toy, use `references/three-image-pilot-brief.md`.
-- Prepare exactly three pilot briefs: hero, core product experience, and lifestyle/use scene.
+- Prepare a small representative pilot (normally hero, core experience, and lifestyle/use scene) to validate visual direction. Pilot size may change with product complexity.
 - The hero must follow the user's explicit direction: enlarged butter-stick squishy as the dominant product, other SKUs only as supporting variety.
 - Do not claim a visual quality score until actual rendered files have been inspected against source photos.
-- Require all three images to pass the product-fidelity hard gate and target 90/100 before scaling to 10–20+ images.
+- Require pilot images to pass the product-fidelity hard gate and target 90/100 before scaling to the planned full set.
 
 ### Step 5 — Generate images through the existing engine
 
@@ -143,7 +144,7 @@ Deliver:
 - Any copy list / source mapping if requested.
 - A QA report listing pass / revise / omitted items.
 
-Use version labels. Once the user approves an image, lock it. Do not redesign approved images when revising another image.
+Use version labels. The AI leads routine production without repeatedly asking the user to continue. Lock approved copy, product/SKU mapping, Visual DNA, and images. Do not redesign approved images when revising another image. Ask only when a material factual conflict blocks accurate production.
 
 ## Output rules
 
