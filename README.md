@@ -15,7 +15,7 @@
 <div align="center">
 
 [![License: MIT][license-shield]][license-url]
-[![Skills: 7][skills-count-shield]][skills-anchor]
+[![Skills: 12][skills-count-shield]][skills-anchor]
 [![Agent Skills][skills-shield]][skills-url]
 [![Platforms: 5][platforms-shield]][platforms-anchor]
 [![Status: alpha][status-shield]][status-anchor]
@@ -400,7 +400,7 @@ MIT — see [LICENSE](LICENSE).
 <!-- Reference-style link definitions -->
 [license-shield]: https://img.shields.io/badge/License-MIT-green.svg
 [license-url]: LICENSE
-[skills-count-shield]: https://img.shields.io/badge/skills-7-success.svg
+[skills-count-shield]: https://img.shields.io/badge/skills-12-success.svg
 [skills-anchor]: #skills
 [skills-shield]: https://img.shields.io/badge/Agent%20Skills-compatible-DA7857?logo=anthropic
 [skills-url]: https://agentskills.io
