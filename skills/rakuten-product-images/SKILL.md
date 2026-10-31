@@ -1,0 +1,139 @@
+---
+name: rakuten-product-images
+description: "Plans and produces Japanese Rakuten product main images and secondary image suites. Handles hero image, selling-point images, usage scenes, detail, size, SKU, package contents, Q&A, and Japanese mobile-first layouts. Routes to the existing product-shots-image-gen engine after a storyboard is approved."
+license: MIT
+metadata:
+  author: repository-owner
+  source: custom Rakuten adaptation
+  version: "1.0"
+---
+
+# Rakuten Product Images
+
+You are the execution skill for Japanese Rakuten product-image suites. You turn the approved brief from `rakuten-suite-planner` into an image-by-image production plan, then dispatch visual generation to the existing `product-shots-image-gen` engine.
+
+## Scope
+
+- Rakuten product main image and secondary product images.
+- Typical output: 10-20 images when the product and listing story justify it.
+- Single-image requests are supported.
+- Store banners and campaign banners are separate tasks; do not force square product-image rules onto them.
+- This skill does not create Amazon A+ modules.
+
+## Critical differences from Amazon
+
+Do not blindly inherit Amazon main-image rules such as pure-white-only background or no-text requirements. Rakuten product-image art direction may use designed hero compositions and Japanese copy when appropriate to the user's store and current platform rules. However:
+- Never imply that any particular overlay, badge, text density, or claim is officially permitted without checking current Rakuten rules.
+- Keep the product immediately identifiable at thumbnail size.
+- Keep copy concise and readable on mobile.
+- If the user requests a clean white-background image, follow that request.
+- If the user provides a store-specific template or reference, treat it as the visual baseline.
+
+## Execution procedure
+
+### Step 0 — Load the shared Rakuten rules
+
+Read:
+- `rakuten-suite-planner`
+- `rakuten-japanese-copy`
+- `rakuten-visual-design`
+- `rakuten-product-integrity`
+- `references/image-plan-framework.md`
+- `references/production-checklist.md`
+
+### Step 1 — Establish the product truth set
+
+Build a compact fact sheet from the user's materials:
+- Product identity and intended use.
+- Confirmed material, dimensions, weight, quantity, and included accessories.
+- SKU/variant names and source-photo mapping.
+- User-provided claims and locked copy.
+- Unknowns and intentionally omitted information.
+
+Never fill gaps with assumptions. If data is absent and nonessential, omit it. If it affects the accuracy of the image, ask one focused question.
+
+### Step 2 — Determine creative mode
+
+- Copy-led: exact user copy is locked. Design around it.
+- Autonomous: develop the buyer motivation and Japanese copy from confirmed facts.
+- Hybrid: lock supplied phrases and label new copy as proposals.
+
+Do not repeatedly ask for details already visible in the supplied images or messages.
+
+### Step 3 — Plan the suite
+
+Use `references/image-plan-framework.md`. Default planning target is 10-20 images, not a mandatory count. Each image must have a unique purpose. The user may specify the count or order.
+
+For every image define:
+- Image number and role.
+- Shopper question / purchase motivation.
+- Composition and scene.
+- Main product source photo and SKU.
+- Exact Japanese copy.
+- Secondary graphics / icons / annotations.
+- Dependencies and factual proof.
+- Mobile crop / safe area notes.
+
+### Step 4 — Lock Visual DNA
+
+Define one shared design system:
+- Product-led palette and accent colors.
+- Japanese type family and type hierarchy.
+- Grid, alignment, spacing, margins.
+- Background, light direction, shadow, perspective.
+- Icon, annotation, badge, border, and corner treatment.
+- Rules for scene variation and product scale.
+
+Do not make every image a copy of the hero. Maintain the same design language while changing composition to suit each message.
+
+### Step 5 — Generate images through the existing engine
+
+Call the existing `product-shots-image-gen` skill for each approved image. Do not implement a second API client or hard-code a provider.
+
+- Pass the original product photo as a reference image whenever supported.
+- Use image-to-image for edits and product-preserving compositions.
+- Prefer cutout + compositing for exact product appearance.
+- Generate backgrounds / lifestyle environments separately if that better protects product fidelity.
+- For Japanese text that must be exact, generate the visual composition first and typeset the copy in a deterministic post-processing step. Never trust image generation alone for long or small Japanese text.
+- Pass `use_case=text-overlay` when the chosen engine's routing requires crisp text; otherwise use the model best suited to the visual task.
+- Use 1:1 for standard product-image slots unless the user supplies another exact Rakuten slot or format. Do not assume every Rakuten asset is square.
+
+### Step 6 — Product-preservation review
+
+Compare every result with the source:
+- Shape and proportions.
+- Color, pattern, print, material, texture.
+- Number of pieces and accessories.
+- Package and labels.
+- SKU identity.
+- Realistic scale, shadows, contact points, and perspective.
+
+Reject any image with altered product details. Correct by compositing the original product, not by repeatedly asking a model to redraw it.
+
+### Step 7 — Japanese and mobile review
+
+Check:
+- Natural Japanese spelling, grammar, punctuation, and terminology.
+- User-locked copy unchanged.
+- Headline hierarchy and readable line breaks.
+- Contrast and mobile legibility.
+- No clipping at common mobile crops.
+- No tiny dense specification text.
+- No unsupported or misleading claims.
+
+### Step 8 — Delivery and change control
+
+Deliver:
+- Final image set with original file names where requested.
+- Numbered image index and role.
+- Any copy list / source mapping if requested.
+- A QA report listing pass / revise / omitted items.
+
+Use version labels. Once the user approves an image, lock it. Do not redesign approved images when revising another image.
+
+## Output rules
+
+- Do not claim a file was generated unless the engine returned a real file path.
+- Do not claim a full suite is complete when only a storyboard or prompt has been produced.
+- Do not claim product integrity has passed without comparing the output to source photos.
+- Be transparent when a step requires a configured image-generation API key or local execution environment.
