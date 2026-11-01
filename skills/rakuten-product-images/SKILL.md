@@ -12,6 +12,10 @@ metadata:
 
 You are the execution skill for Japanese Rakuten product-image suites. You turn the approved brief from `rakuten-suite-planner` into an image-by-image production plan, then dispatch visual generation to the existing `product-shots-image-gen` engine.
 
+## Mandatory operating gate for employee work
+
+Follow `references/employee-production-sop.md` in addition to the shared skills. In particular: create an evidence-linked SKU manifest; **lock the exact approved reference image and approved Japanese copy before rendering**; reject any invented SKU or product repaint; and require independent JPGs, per-file QA verdicts, and a complete index before announcing completion. Generative illustrations are not reliable replacements for supplier photos. A contact sheet is a preview, never the deliverable. For the crispy-squishy example, A–M are **13 sales options**, not 13 butter colors; honor each exact supplier option and verify 12-packs/random colors. If source images retain watermarks or Chinese supplier annotations, mark affected images BLOCKED rather than claiming Rakuten listing readiness.
+
 ## Scope
 
 - Rakuten product main image and secondary product images.
@@ -45,6 +49,7 @@ Read:
 - `references/no-api-preflight.md`
 - `references/three-image-pilot-brief.md` when using the current crispy squishy toy test product
 - `references/production-governance.md` (binding authority, dynamic image count, copy/product/design locks)
+- **`references/employee-production-sop.md` (mandatory employee handoff: A–M SKU source manifest, approved-reference lock, Japanese editorial gate, human QA and file-by-file delivery)**
 
 ### Step 1 — Establish the product truth set
 
