@@ -50,6 +50,7 @@ Read:
 - `references/three-image-pilot-brief.md` when using the current crispy squishy toy test product
 - `references/production-governance.md` (binding authority, dynamic image count, copy/product/design locks)
 - **`references/employee-production-sop.md` (mandatory employee handoff: A–M SKU source manifest, approved-reference lock, Japanese editorial gate, human QA and file-by-file delivery)**
+- **`references/employee-job-template.md` (copy this form for each product; record reference evidence, copy approval and per-JPG QA)**
 
 ### Step 1 — Establish the product truth set
 
