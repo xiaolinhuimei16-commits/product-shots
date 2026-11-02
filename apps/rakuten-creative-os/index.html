@@ -54,8 +54,9 @@ const root=document.querySelector("#skus");
 });
 headings.forEach((s,i)=>{const div=document.createElement("div");div.innerHTML='<label>'+String(i+1).padStart(2,"0")+'｜日语主标题</label><input type="text" class="headline">';div.querySelector("input").value=s;document.querySelector("#headlines").append(div);});
 const $=s=>document.querySelector(s);
-function changed(){ $("#download").disabled=true;$("#previewOK").disabled=true;$("#previewOK").checked=false; }
-document.querySelectorAll("input").forEach(el=>el.addEventListener("change",changed));
+function invalidatePreview(){ $("#download").disabled=true;$("#previewOK").disabled=true;$("#previewOK").checked=false;$("#prebox").hidden=true; }
+// Changes to source material invalidate the old preview. The preview approval checkbox itself must not.
+document.querySelectorAll(".sku-name,.sku-file,#reference,#refName,#background,#pink,#brown,.headline,#sourceOK,#copyOK,#styleOK").forEach(el=>el.addEventListener("change",invalidatePreview));
 async function build(action){
  const manifest={skus:{},headlines:[...document.querySelectorAll(".headline")].map(el=>el.value.trim()),approved_ref_name:$("#refName").value.trim(),
  background:$("#background").value,pink:$("#pink").value,brown:$("#brown").value,
