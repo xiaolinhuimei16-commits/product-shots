@@ -56,3 +56,12 @@ python -m uvicorn app:app --app-dir apps/rakuten-creative-os --host 127.0.0.1 --
 3. 在照片保持不变的前提下增强抠图与产品布局，增加溯源、视觉差异比对、中文水印识别。
 4. 引入可信日语文案校对审核流程和“证据/卖点/文案/图片”一一绑定。
 5. 真实商品的端到端验收，确认每张JPG达到店铺标准，才考虑内网部署。
+
+## 自检命令
+
+```bash
+pip install httpx
+python -m unittest discover -s apps/rakuten-creative-os -p 'test_*.py'
+```
+
+这套自动化 smoke tests 已写入仓库，但仍需在实际 Windows 员工电脑安装依赖、运行测试并检查中文/日文字体；如果日文显示方框，请安装 Noto Sans CJK 并通过 `RAKUTEN_FONT` 环境变量指定可用字体文件。首次接入真实商品前，仍须由负责人执行完整人工上架验收。
