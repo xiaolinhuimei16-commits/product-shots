@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rakuten Creative OS｜员工工作台</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;color:#463332;background:#fff8f1}
+*{box-sizing:border-box}body{margin:0}header{padding:22px 5%;background:#fff;border-bottom:4px solid #eeb2b6}
+h1{margin:0;font-size:26px;color:#8b3e60}h2{font-size:19px}p{line-height:1.6}
+main{max-width:1120px;margin:24px auto;padding:0 18px}.panel{background:white;border:1px solid #f0dddd;border-radius:20px;padding:22px;margin:16px 0;box-shadow:0 4px 18px #a34a5610}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:13px}
+label{display:block;font-weight:600;margin:10px 0 5px}input[type=text],textarea,input[type=color]{width:100%;border:1px solid #d7babb;border-radius:10px;padding:10px;background:#fff}
+input[type=file]{width:100%;font-size:13px}.sku{border:1px solid #ebd2d1;background:#fffdfb;border-radius:14px;padding:12px}
+.sku strong{background:#f5a7b8;padding:5px 10px;border-radius:100px}button{background:#983f5e;color:#fff;border:0;border-radius:12px;padding:14px 22px;font-weight:700;cursor:pointer;margin:6px 8px 6px 0}
+button:disabled{opacity:.45;cursor:not-allowed}.muted{color:#785f61;font-size:14px}.warning{background:#fff0d6;border-left:5px solid #d08b24;padding:12px;border-radius:8px}
+.check{padding:8px 0}.check input{transform:scale(1.2);margin-right:10px}#preview{max-width:100%;border-radius:12px;border:1px solid #ccc}#status{white-space:pre-wrap;color:#7b2d44;font-weight:600}
+</style></head><body>
+<header><h1>Rakuten Creative OS · 员工工作台</h1><div class="muted">本机测试版｜真实商品图片合成｜每张独立JPG｜人工审核后打包下载</div></header>
+<main>
+<div class="warning"><strong>当前为可运行的本地 MVP，不是正式上线版。</strong>只监听本机；没有员工登录、共享数据库和远程部署。本版仅按模板合成真实图片，不宣称AI已实现你批准设计的精确像素级复刻。产出的文件默认待人工质检。</div>
+<section class="panel"><h2>① 上传真实商品 SKU 图片</h2>
+<p class="muted">只填写实际销售的选项。A～M是本次脆皮捏捏玩具的示例顺序；更换商品可清空或改名。一个销售选项对应一张真实照片，组合装请上传真实组合/包装图。</p>
+<div id="skus" class="grid"></div></section>
+<section class="panel"><h2>② 指定已认可的视觉风格</h2>
+<label>已批准的参考图（必传；只用于员工审核，不自动改画产品）</label><input type="file" accept="image/*" id="reference">
+<label>参考图名称/版本</label><input type="text" id="refName" placeholder="例如：10月31日批准的ABCD SKU早见表">
+<p class="muted">设置与母版一致的基础颜色；这是简化模板，尚不能自动提取复杂字体、描边及装饰。</p>
+<div class="grid"><div><label>背景色</label><input type="color" id="background" value="#fff4cf"></div>
+<div><label>粉色强调</label><input type="color" id="pink" value="#f5a7b8"></div>
+<div><label>文字/边线</label><input type="color" id="brown" value="#6d3a37"></div></div></section>
+<section class="panel"><h2>③ 日语文案：先审核再排版</h2>
+<p class="muted">12行对应12张图片的日语主标题。初稿只作为可编辑文本；未经确认的卖点、材质、尺寸、功效不要写。</p>
+<div id="headlines" class="grid"></div></section>
+<section class="panel"><h2>④ 先查看预览，再确认导出</h2>
+<div class="check"><label><input type="checkbox" id="sourceOK">我已核实所填SKU、图片与单件/组合选项对应</label></div>
+<div class="check"><label><input type="checkbox" id="copyOK">日语文案经过人工校对，且没有虚构事实</label></div>
+<div class="check"><label><input type="checkbox" id="styleOK">已上传经过批准的参考图，并核对本次模板配色</label></div>
+<button type="button" id="makePreview">生成12张总预览（仅内部审图）</button>
+<div id="prebox" hidden><h3>内部预览（不是12张交付文件）</h3><img id="preview" alt="12张合成图总预览"/></div>
+<div class="check"><label><input type="checkbox" id="previewOK" disabled>我已检查预览；理解全部JPG仍需逐张人工终检</label></div>
+<button type="button" id="download" disabled>下载12张独立JPG ZIP（待最终质检）</button>
+<div id="status" role="status"></div></section>
+</main>
+<script>
+const labels=[
+"黑巧克力脆皮捏捏","粉巧克力脆皮捏捏","白巧克力脆皮捏捏","巧克力12个混装【送端盒】随机色",
+"马卡龙脆皮甜甜圈","甜甜圈12个【送端盒】","马卡龙脆皮猫爪","猫爪12个【送端盒】",
+"脆皮黄油条捏捏","脆皮黄油条12个【送端盒】","脆皮粉油条捏捏","脆皮绿油条捏捏",
+"脆皮香皂满12【送端盒】随机色"];
+const headings=["パリッと楽しい、スクイーズ","思わず触れたくなる","実物写真で表面をチェック","ぎゅっと握る楽しさ","いろいろなデザイン","お気に入りを見つけよう","細かな外観にも注目","ドーナツ・肉球デザイン","バター風シリーズ","手に取って楽しもう","SKU早見表 A～M","ご注文前にご確認ください"];
+const root=document.querySelector("#skus");
+"ABCDEFGHIJKLM".split("").forEach((code,i)=>{
+ const div=document.createElement("div");div.className="sku";
+ div.innerHTML='<strong>'+code+'</strong><label>销售选项（原名，可修改）</label><input type="text" class="sku-name" data-code="'+code+'"><label>真实商品照片</label><input type="file" class="sku-file" data-code="'+code+'" accept="image/png,image/jpeg,image/webp">';
+ div.querySelector("input[type=text]").value=labels[i];root.append(div);
+});
+headings.forEach((s,i)=>{const div=document.createElement("div");div.innerHTML='<label>'+String(i+1).padStart(2,"0")+'｜日语主标题</label><input type="text" class="headline">';div.querySelector("input").value=s;document.querySelector("#headlines").append(div);});
+const $=s=>document.querySelector(s);
+function changed(){ $("#download").disabled=true;$("#previewOK").disabled=true;$("#previewOK").checked=false; }
+document.querySelectorAll("input").forEach(el=>el.addEventListener("change",changed));
+async function build(action){
+ const manifest={skus:{},headlines:[...document.querySelectorAll(".headline")].map(el=>el.value.trim()),approved_ref_name:$("#refName").value.trim(),
+ background:$("#background").value,pink:$("#pink").value,brown:$("#brown").value,
+ approved_source:$("#sourceOK").checked,approved_copy:$("#copyOK").checked,
+ approved_style:$("#styleOK").checked,reviewed_preview:$("#previewOK").checked};
+ const form=new FormData();
+ for(const el of document.querySelectorAll(".sku-name")){
+  const code=el.dataset.code,file=document.querySelector('.sku-file[data-code="'+code+'"]').files[0];
+  if(file){manifest.skus[code]={name:el.value.trim()};form.append("photo_"+code,file);}
+  else if(el.value.trim() && document.querySelector('.sku-file[data-code="'+code+'"]').files.length) throw Error("SKU "+code+" 尚未上传实际照片");
+ }
+ if(!Object.keys(manifest.skus).length) throw Error("请先上传至少一张真实商品图片");
+ if(!manifest.headlines.every(Boolean)) throw Error("请补齐12张日语主标题");
+ if(action==="export" && (!manifest.approved_source||!manifest.approved_copy||!manifest.approved_style||!manifest.reviewed_preview||!$("#reference").files[0]||!manifest.approved_ref_name))
+  throw Error("必须上传参考图并完成全部人工审核勾选");
+ form.append("manifest",JSON.stringify(manifest));
+ if($("#reference").files[0])form.append("style_reference",$("#reference").files[0]);
+ const response=await fetch("/api/"+action,{method:"POST",body:form});
+ if(!response.ok){const obj=await response.json().catch(()=>({}));throw Error(obj.detail||"处理失败");}
+ return response.blob();
+}
+$("#makePreview").onclick=async()=>{
+ $("#status").textContent="正在合成预览…";$("#download").disabled=true;
+ try{const b=await build("preview");$("#preview").src=URL.createObjectURL(b);$("#prebox").hidden=false;$("#previewOK").disabled=false;$("#status").textContent="预览已生成，请仔细审查。";}
+ catch(e){$("#status").textContent=e.message;}
+};
+$("#previewOK").addEventListener("change",()=>{$("#download").disabled=!$("#previewOK").checked;});
+$("#download").onclick=async()=>{
+ $("#status").textContent="正在生成12张独立图片…";
+ try{const b=await build("export");const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="rakuten-12-draft.zip";a.click();$("#status").textContent="已下载：ZIP内含12张独立JPG与QA清单，状态仍为待人工终检。";}
+ catch(e){$("#status").textContent=e.message;}
+};
+</script></body></html>
