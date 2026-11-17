@@ -128,7 +128,9 @@ async def collect(request: Request):
         raise HTTPException(422, "Invalid manifest JSON")
     if not isinstance(manifest, dict) or not isinstance(manifest.get("skus"), dict):
         raise HTTPException(422, "Missing SKU manifest")
-    if len(manifest.get("headlines", [])) != 12:
+    if (not isinstance(manifest.get("headlines"), list)
+            or len(manifest["headlines"]) != 12
+            or any(not isinstance(h, str) or not h.strip() for h in manifest["headlines"])):
         raise HTTPException(422, "Exactly 12 reviewed headlines needed for this test case")
     photos = {}
     for code, entry in manifest["skus"].items():
