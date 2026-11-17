@@ -65,6 +65,16 @@ class LocalWebMvpTest(unittest.TestCase):
             response=client.post("/api/export", **job(False))
         self.assertEqual(response.status_code, 422)
 
+    def test_invalid_headline_payload_is_rejected(self):
+        for headlines in ("123456789012", [""] * 12, ["ok"] * 11 + [None]):
+            payload = job(False)
+            manifest = json.loads(payload["data"]["manifest"])
+            manifest["headlines"] = headlines
+            payload["data"]["manifest"] = json.dumps(manifest, ensure_ascii=False)
+            with self.subTest(headlines=headlines), TestClient(app) as client:
+                response = client.post("/api/preview", **payload)
+            self.assertEqual(response.status_code, 422)
+
     def test_no_invented_sku(self):
         payload=job()
         payload["files"]={"style_reference":("reference.png",test_photo(),"image/png")}
